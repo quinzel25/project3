@@ -6,7 +6,6 @@ class Artist(Model):
     name = CharField()
     email = CharField()
     
-
     class Meta:
         database = db
 
@@ -59,6 +58,14 @@ def does_artist_exist(name):
     else:
         return False
 
+def view_all_artists():
+    
+    query = Artist.select()
+    print('fucntion called')
+    for x in query:
+        print(x)
+
+
 def change_availability(art_id, new_status):
 
     try:
@@ -71,22 +78,25 @@ def change_availability(art_id, new_status):
         print('Error changing status')
 
 def all_art_by_artist(name):
-
-    name = name.lower()
-    query = Artwork.select().join(Artist).where(Artist.name == name)
-    print(f'All artwork from {name}: \n')
-    for x in query:
-        print(x)
+    try:
+        name = name.lower()
+        query = Artwork.select().join(Artist).where(Artist.name == name)
+        print(f'All artwork from {name}: \n')
+        for x in query:
+            print(x)
+    except:
+        print('Error retrieving art')
 
 def all_available_art(name):
+    try:
+        query = Artwork.select().where(Artwork.status == 'available').join(Artist).where(Artist.name == name)
 
-    query = Artwork.select().where(Artwork.status == 'available').join(Artist).where(Artist.name == name)
-
-    print(f'All available artwork from {name} : \n')
-    for x in query:
-        print(x.content)
-
-
+        print(f'All available artwork from {name} : \n')
+        for x in query:
+            print(x)
+    except:
+        print('Error retrieving art')
+        
 
 
 
