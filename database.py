@@ -12,7 +12,7 @@ class Artist(Model):
 
 class Artwork(Model):
     artwork_id = AutoField()
-    artist_id = ForeignKeyField(Artist, backref= 'artist_id')
+    artist_id = ForeignKeyField(Artist, backref= 'artistID')
     artist = CharField()
     artName = CharField()
     price = IntegerField()
@@ -34,7 +34,7 @@ def add_artist(name_input, email_input):
         email_input = email_input.lower()
         Artist.create(name=name_input, email=email_input)
         
-        print(f'{name_input.capitalize()} has been added into the Artist db')
+        print(f'{name_input} has been added into the Artist db')
     except:
         print('Error adding artist')
 
@@ -43,7 +43,7 @@ def add_art(artist, artwork, price, status):
     try:
         Artwork.create(artist=artist, artName=artwork, price=price,status=status)
 
-        print(f'{artwork.capitalize()} added for {artist.capitalize()}')
+        print(f'{artwork} added for {artist}')
     except:
         print('Error adding artpeice')
 
@@ -62,6 +62,7 @@ def does_artist_exist(name):
 def change_availability(art_id, new_status):
 
     try:
+        new_status = new_status.lower().strip()
         change = Artwork.update(status=new_status).where(Artwork.artwork_id == art_id)
         change.execute
 
@@ -71,7 +72,19 @@ def change_availability(art_id, new_status):
 
 def all_art_by_artist(name):
 
-    pass
+    name = name.lower()
+    query = Artwork.select().join(Artist).where(Artist.name == name)
+    print(f'All artwork from {name}: \n')
+    for x in query:
+        print(x)
+
+def all_available_art(name):
+
+    query = Artwork.select().where(Artwork.status == 'available').join(Artist).where(Artist.name == name)
+
+    print(f'All available artwork from {name} : \n')
+    for x in query:
+        print(x.content)
 
 
 
