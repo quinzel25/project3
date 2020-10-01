@@ -10,7 +10,7 @@ class Artist(Model):
         database = db
 
 class Artwork(Model):
-    artwork_id = AutoField()
+    
     artist_id = ForeignKeyField(Artist, backref= 'artistID')
     artist = CharField()
     artName = CharField()
@@ -37,18 +37,18 @@ def add_artist(name_input, email_input):
     except:
         print('Error adding artist')
 
-def add_art(artist, artwork, price, status):
+def add_art(artist_input, artwork, price_input, status_input):
 
-    try:
-        Artwork.create(artist=artist, artName=artwork, price=price,status=status)
+    #try:
+    Artwork.create(artist=artist_input, artName=artwork, price=price_input,status=status_input)
 
-        print(f'{artwork} added for {artist}')
-    except:
-        print('Error adding artpeice')
+    print(f'{artwork} added for {artist_input}')
+    #except:
+        #print('Error adding artpeice' , e)
 
 
 def does_artist_exist(name):
-    ###checks 
+    ###checks to see if artist is in database, returns a boolean
     name = name.lower()
 
     search = Artist.select().where(Artist.name == name)
@@ -63,14 +63,14 @@ def view_all_artists():
     query = Artist.select()
     print('fucntion called')
     for x in query:
-        print(x)
+        print(x.name)
 
 
 def change_availability(art_id, new_status):
 
     try:
         new_status = new_status.lower().strip()
-        change = Artwork.update(status=new_status).where(Artwork.artwork_id == art_id)
+        change = Artwork.update(status=new_status).where(Artwork.id == art_id)
         change.execute
 
         print(f'Status changed to {new_status}')
@@ -81,6 +81,7 @@ def all_art_by_artist(name):
     try:
         name = name.lower()
         query = Artwork.select().join(Artist).where(Artist.name == name)
+        query.execute()
         print(f'All artwork from {name}: \n')
         for x in query:
             print(x)
@@ -90,7 +91,7 @@ def all_art_by_artist(name):
 def all_available_art(name):
     try:
         query = Artwork.select().where(Artwork.status == 'available').join(Artist).where(Artist.name == name)
-
+        query.execute()
         print(f'All available artwork from {name} : \n')
         for x in query:
             print(x)
