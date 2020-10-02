@@ -39,13 +39,12 @@ def add_artist(name_input, email_input):
 
 def add_art(artist_input, artwork, price_input, status_input):
 
-    #try:
-    Artwork.create(artist=artist_input, artName=artwork, price=price_input,status=status_input)
+    try:
+        Artwork.create(artist=artist_input, artName=artwork, price=price_input,status=status_input, artist_id="NULL")
 
-    print(f'{artwork} added for {artist_input}')
-    #except:
-        #print('Error adding artpeice' , e)
-
+        print(f'{artwork} added for {artist_input}')
+    except:
+        print('Error adding artpeice' )
 
 def does_artist_exist(name):
     ###checks to see if artist is in database, returns a boolean
@@ -84,7 +83,7 @@ def all_art_by_artist(name):
         query.execute()
         print(f'All artwork from {name}: \n')
         for x in query:
-            print(x)
+            print(x.artName)
     except:
         print('Error retrieving art')
 
@@ -94,7 +93,7 @@ def all_available_art(name):
         query.execute()
         print(f'All available artwork from {name} : \n')
         for x in query:
-            print(x)
+            print(x.artName)
     except:
         print('Error retrieving art')
         
