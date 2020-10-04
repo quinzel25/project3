@@ -5,6 +5,10 @@ def choice_one():
     name = input('Enter artist name: ')
     email = input('Enter artist email: ')
 
+    if name == '' or email == '':
+        print('Please provide name or email')
+        return None
+
     return name, email
 
 def choice_two(): 

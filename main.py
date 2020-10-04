@@ -20,11 +20,19 @@ def main():
 
     while choice != 7:
         if choice == 1:
-            name, email = ui.choice_one()
-            database.add_artist(name, email)
+            try:
+                name, email = ui.choice_one()
+                database.add_artist(name, email)
+            except:
+                # if name OR email is blank it returns None which throws the exception
+                print('')
         elif choice == 2:
-            artist, artwork, price, status = ui.choice_two()
-            database.add_art(artist, artwork, price, status)
+            try:
+                artist, artwork, price, status = ui.choice_two()
+                database.add_art(artist, artwork, price, status)
+            except:
+                #if this function fails its due to artist not being found in database
+                print('')
         elif choice == 3:
             database.view_all_artists()
         elif choice == 4:
