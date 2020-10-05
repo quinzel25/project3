@@ -50,7 +50,7 @@ def main():
         menu()
         choice = int(input('Enter choice: '))
 
-    print('Have a nice day')
+    print('Have a nice day! :)')
 
 if __name__ == '__main__':
     main()
